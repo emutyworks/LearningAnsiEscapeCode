@@ -1,21 +1,39 @@
-void set_pos_x(int x)
+void drawObj(int px, int py, int sx, int sy, unsigned int* col,
+  unsigned int* pal)
+{
+  int x,y;
+  int color;
+  
+  setPosY(py);
+  for(y=0; y<sy; y++){
+    setPosX(px);
+    for(x=0; x<sx; x++){
+      color = pal[ col[y*sx+x] ];
+      setBGColor(color);
+      printf(" ");
+    }
+    printf("\n");
+  }  
+}
+
+void setPosX(int x)
 {
   printf("%s[%dC",ESC,x);
 }
 
-void set_pos_y(int y)
+void setPosY(int y)
 {
   printf("%s[%dB",ESC,y);
 }
 
-void init_screen(int w, int h, int c)
+void initScreen(int w, int h, int c)
 {
   int x,y;
   
   printf("%s[H",ESC);   //moves cursor to home position (0, 0)
   printf("%s[2J",ESC);  //erase entire screen
 
-  set_bgcolor(c);
+  setBGColor(c);
   for(y=0; y<h; y++){
     for(x=0; x<w; x++){
       printf(" ");
@@ -25,17 +43,17 @@ void init_screen(int w, int h, int c)
   printf("%s[H",ESC);   //moves cursor to home position (0, 0)
 }
 
-void set_fgcolor(int c)
+void setFGColor(int c)
 {
   printf("%s[38;5;%dm",ESC,c);
 }
 
-void set_bgcolor(int c)
+void setBGColor(int c)
 {
   printf("%s[48;5;%dm",ESC,c);
 }
 
-void reset_color(void)
+void resetColor(void)
 {
   printf("%s[0m",ESC);
 }
