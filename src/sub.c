@@ -1,17 +1,7 @@
-void setPosX(unsigned char x)
-{
-  printf("%s[%dC",ESC,x);
-}
-
-void setPosY(unsigned char y)
-{
-  printf("%s[%dB",ESC,y);
-}
-
 void initScreen(void)
 {
-  printf("%s[H",ESC);   // Moves cursor to home position (0, 0)
-  printf("%s[2J",ESC);  // Erase entire screen
+  MOVE_HOME_POS;
+  ERASE_SCREEN;
 
   struct winsize w;
   ioctl(0, TIOCGWINSZ, &w);
@@ -20,25 +10,25 @@ void initScreen(void)
   vs.h=w.ws_row;
 
   unsigned char x,y;
-  unsigned int dy;
+  unsigned int vy;
   for(y=0; y<vs.h; y++){
-    dy=y*vs.w;
+    vy=y*vs.w;
     for(x=0; x<vs.w; x++){
-      vsram[ dy+x ]=sp_pal[0][0];
+      vsram[ vy+x ]=sp_pal[0][0];
     }
   } 
 }
 
 void drawScreen(void){
-  printf("%s[H",ESC);   // Moves cursor to home position (0, 0)
+  MOVE_HOME_POS;
 
   unsigned char x,y;
-  unsigned int py;
+  unsigned int vy;
 
   for(y=0; y<vs.h; y++){
-    py=y*vs.w;
+    vy=y*vs.w;
     for(x=0; x<vs.w; x++){
-      setBGColor( vsram[ py+x ] );
+      SET_BG_COLOR( vsram[ vy+x ] );
       printf(" ");
     }
   }
@@ -47,31 +37,16 @@ void drawScreen(void){
 void setSprite(sprite sp)
 {
   unsigned char x,y,d;
-  unsigned int oy,dy;
+  unsigned int oy,vy;
 
   for(y=0; y<sp.h; y++){
     oy=y*sp.w;
-    dy=(y+sp.y)*vs.w+sp.x;
+    vy=(y+sp.y)*vs.w+sp.x;
     for(x=0; x<sp.w; x++){
       d = sp_obj[ sp.o ][ oy+x ];
       if(d!=0){
-        vsram[ dy+x ]=sp_pal[ sp.p ][ d ];
+        vsram[ vy+x ]=sp_pal[ sp.p ][ d ];
       }
     }
   }
-}
-
-void setFGColor(unsigned char c)
-{
-  printf("%s[38;5;%dm",ESC,c);
-}
-
-void setBGColor(unsigned char c)
-{
-  printf("%s[48;5;%dm",ESC,c);
-}
-
-void resetColor(void)
-{
-  printf("%s[0m",ESC);
 }

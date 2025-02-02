@@ -42,9 +42,5 @@ int main(void)
 
   drawScreen();
 
-  /*debug*/
-  //setFGColor(0);
-  //setPosY(vs.h-10);
-  //printf("%d/%d",vs.w,vs.h);
 	return 0;
 }
