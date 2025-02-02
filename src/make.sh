@@ -1,3 +1,7 @@
 #!/bin/sh
 gcc main.c -o test
-./test
+res=$?
+
+if [ $res = 0 ]; then
+  ./test
+fi

@@ -13,19 +13,38 @@
  *
  */
 
+#include <sys/ioctl.h>
+#include <stdio.h>
 #include "define.h"
-#include "sub.c"
 #include "data.c"
+#include "sub.c"
 
 int main(void)
 {
-  struct winsize w;
-  ioctl(0, TIOCGWINSZ, &w);
+  initScreen();
 
-  initScreen(w.ws_col, w.ws_row, 15);
+  sprite sp;
+  sp.x=5;
+  sp.y=3;
+  sp.w=16;
+  sp.h=8;
+  sp.o=0;
+  sp.p=0;
+  setSprite(sp);
 
-  drawObj(5, 3, 16, 8, ball_col, ball_pal);
+  sp.x=13;
+  sp.y=7;
+  sp.w=16;
+  sp.h=8;
+  sp.o=0;
+  sp.p=1;
+  setSprite(sp);
 
-  resetColor();
+  drawScreen();
+
+  /*debug*/
+  //setFGColor(0);
+  //setPosY(vs.h-10);
+  //printf("%d/%d",vs.w,vs.h);
 	return 0;
 }

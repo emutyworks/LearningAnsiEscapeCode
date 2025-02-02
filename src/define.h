@@ -1,13 +1,32 @@
-#include <sys/ioctl.h>
-#include <stdio.h>
-
-void setPosX(int x);
-void setPosY(int y);
-void initScreen(int w, int h, int c);
-void setFGColor(int c);
-void setBGColor(int c);
-void resetColor(void);
-void drawObj(int px, int py, int sx, int sy, unsigned int* col,
-  unsigned int* pal);
-
 #define ESC "\x1b"
+#define INI_MAX_W 240 // 1920/8
+#define INI_MAX_H 135 // 1080/8
+
+unsigned char vsram[ INI_MAX_W * INI_MAX_H ]; // Virtual Screen RAM  
+
+typedef struct
+{
+  unsigned char w;
+  unsigned char h;  
+} vscreen;
+
+vscreen vs;
+
+typedef struct
+{
+  unsigned char x;
+  unsigned char y; 
+  unsigned char w; 
+  unsigned char h; 
+  unsigned char o; // Sprite Object data 
+  unsigned char p; // Sprite Palette
+} sprite;
+
+void initScreen(void);
+void drawScreen(void);
+void setSprite(sprite sp);
+void resetColor(void);
+void setPosX(unsigned char x);
+void setPosY(unsigned char y);
+void setFGColor(unsigned char c);
+void setBGColor(unsigned char c);
