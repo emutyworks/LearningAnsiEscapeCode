@@ -7,8 +7,8 @@
 #define RESET_COLOR printf("%s[0m",ESC)
 #define SET_FG_COLOR(v) printf("%s[38;5;%dm",ESC,v);
 #define SET_BG_COLOR(v) printf("%s[48;5;%dm",ESC,v);
-#define SET_POS_X(v) printf("%s[%dC",ESC,v)
-#define SET_POS_Y(v) printf("%s[%dB",ESC,v)
+#define CURSOR_RIGHT(v) printf("%s[%dC",ESC,v)
+#define CURSOR_DOWN(v) printf("%s[%dB",ESC,v)
 
 unsigned char vsram[ INI_MAX_W * INI_MAX_H ]; // Virtual Screen RAM  
 

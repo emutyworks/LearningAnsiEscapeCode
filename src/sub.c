@@ -6,8 +6,8 @@ void initScreen(void)
   struct winsize w;
   ioctl(0, TIOCGWINSZ, &w);
 
-  vs.w=w.ws_col;
-  vs.h=w.ws_row;
+  vs.w=(w.ws_col<INI_MAX_W?w.ws_col:INI_MAX_W);
+  vs.h=(w.ws_row<INI_MAX_H?w.ws_row:INI_MAX_H);
 
   unsigned char x,y;
   unsigned int vy;
